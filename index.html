@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>World Map</title>
+    <style type="text/css">
+        body {
+            color: #5d5d5d;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: auto;
+        }
+
+        /* Specific mapael css class are below
+         * 'mapael' class is added by plugin
+        */
+
+        .mapael .map {
+            background-color: #cddee0;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .mapael .mapTooltip {
+            position: absolute;
+            background-color: #fff;
+            moz-opacity: 0.70;
+            opacity: 0.70;
+            filter: alpha(opacity=70);
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 1000;
+            max-width: 200px;
+            display: none;
+            color: #343434;
+        }
+
+        /* For all zoom buttons */
+        .mapael .zoomButton {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            color: #000;
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+            text-align: center;
+            border-radius: 3px;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            font-weight: bold;
+            left: 10px;
+
+            -webkit-user-select: none;
+            -khtml-user-select : none;
+            -moz-user-select: none;
+            -o-user-select : none;
+            user-select: none;
+        }
+
+        /* Reset Zoom button first */
+        .mapael .zoomReset {
+            top: 10px;
+        }
+
+        /* Then Zoom In button */
+        .mapael .zoomIn {
+            top: 30px;
+        }
+
+        /* Then Zoom Out button */
+        .mapael .zoomOut {
+            top: 50px;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"
+            charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js" charset="utf-8"></script>
+    <script src="./js/jquery.mapael.js" charset="utf-8"></script>
+    <script src="./js/maps/world_countries.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var test_plots = {
+                "paris": {
+                    latitude: 48.86,
+                    longitude: 2.3444444444444,
+                    tooltip: {
+                        content: "Paris"
+                    }
+                },
+                "tokyo": {
+                    latitude: 35.689488,
+                    longitude: 139.691706,
+                    tooltip: {
+                        content: "Tokyo"
+                    }
+                },
+                "moscow": {
+                    latitude: 55.755786,
+                    longitude: 37.617633,
+                    tooltip: {
+                        content: "Moscow"
+                    }
+                },
+                "los_angeles": {
+                    latitude: 34.052234,
+                    longitude: -118.243685,
+                    tooltip: {
+                        content: "Los Angeles"
+                    }
+                },
+                "auckland": {
+                    latitude: -36.84846,
+                    longitude: 174.763332,
+                    tooltip: {
+                        content: "Auckland"
+                    }
+                },
+                "kiruna": {
+                    latitude: 67.855737,
+                    longitude: 20.225231,
+                    tooltip: {
+                        content: "Kiruna"
+                    }
+                },
+                "reykjavik": {
+                    latitude: 64.135338,
+                    longitude: -21.89521,
+                    tooltip: {
+                        content: "Reykjavík"
+                    }
+                },
+                "wales": {
+                    latitude: 65.609167,
+                    longitude: -168.0875,
+                    tooltip: {
+                        content: "Wales"
+                    }
+                },
+                "tiksi": {
+                    latitude: 71.625094,
+                    longitude: 128.872883,
+                    tooltip: {
+                        content: "Tiksi"
+                    }
+                },
+                "pretoria": {
+                    latitude: -25.746019,
+                    longitude: 28.18712,
+                    tooltip: {
+                        content: "Pretoria"
+                    }
+                }
+            };
+
+            var getElemID = function(elem) {
+                // Show element ID
+                return $(elem.node).attr("data-id");
+            };
+
+            $(".mapcontainer").mapael({
+                map: {
+                    // Set the name of the map to display
+                    name: "world_countries",
+                    // Enable zoom on the map
+                    zoom: {
+                        enabled: true,
+                        mousewheel: false,
+                        animDuration: 100,
+                        animEasing: "backIn"
+                    },
+                    defaultPlot: {
+                        tooltip: {
+                            content: getElemID
+                        },
+                        text: {
+                            attrs: {
+                                fill: "#505444",
+                            }
+                            , attrsHover: {
+                                fill: "#000",
+                            }
+                        },
+                        attrs: {
+                            opacity: 0.8
+                        }
+                    }
+                },
+                plots: test_plots
+            });
+
+            // Get mapael object (to be used later)
+            var mapael = $(".mapcontainer").data("mapael");
+
+            // Vars to keep track of current movement
+             var mouseDragging = false;
+             var mouseDown = false;
+
+             var $SVGMap = $(".mapcontainer .map svg");
+
+            // Detect mousedown event
+            $SVGMap.mousedown(function () {
+                mouseDown = true;
+            });
+
+            // If the mouse if moving, and mousedown was set, then user is dragging!
+            $SVGMap.mousemove(function () {
+                mouseDragging = mouseDown;
+            });
+
+            // On mouse up, check if user was dragging or only clicking
+            // If not dragging, then zoom on position!
+            $SVGMap.mouseup(function (e) {
+                if (!mouseDragging) {
+                    // We need to convert the mouse coordinate to map coordinate
+                    // Fortunately, Mapael provides a handy function to do this for us!
+                    var newCoordinates = mapael.mapPagePositionToXY(e.pageX, e.pageY);
+
+                    // Zoom to this position
+                    $(".mapcontainer").trigger('zoom', {
+                        fixedCenter: true,
+                        level: "+1",
+                        x: newCoordinates.x,
+                        y: newCoordinates.y
+                    });
+                }
+                // Reset vars
+                mouseDragging = false;
+                mouseDown = false;
+            });
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>World Map</h1>
+
+        <div class="mapcontainer">
+            <div class="map">
+                <span>Alternative content for the map</span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
