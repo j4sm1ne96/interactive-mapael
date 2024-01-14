@@ -1,3 +1,17 @@
+# Interactive World Map using jQuery Mapael
+This project has the following goals:
+- [x] Use world countries api 
+- [x] Have countries highlight upon hover
+- [x] Plot some cities on the map 
+- [x] Have plotted cities names show upon hover
+- [ ] Have country names show upon hover
+- [ ] Have details about plotted cities show when clicking
+- [ ] Add navbar to webpage
+- [ ] Add footer to webpage
+- [ ] TBD other html pages to link to from nav
+
+For further details on Mapael see below:
+
 # jQuery Mapael - Dynamic vector maps
 
 [![Build Status](https://travis-ci.org/neveldo/jQuery-Mapael.svg?branch=master)](https://travis-ci.org/neveldo/jQuery-Mapael)
