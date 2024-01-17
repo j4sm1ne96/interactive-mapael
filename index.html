@@ -7,18 +7,18 @@
         body {
             color: #5d5d5d;
             font-family: Helvetica, Arial, sans-serif;
+            background-color: #cddee0;
         }
 
         h1 {
             font-size: 30px;
             margin: auto;
             margin-top: 30px;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
         }
 
         .container {
             max-width: 100%;
-            margin: auto;
         }
 
         /* Specific mapael css class are below
@@ -26,16 +26,18 @@
         */
 
         .mapael .map {
-            background-color: #cddee0;
             margin-bottom: 10px;
             position: relative;
+        }
+
+        rect {
+            fill: #9dc183;
         }
 
         .mapael .mapTooltip {
             position: absolute;
             background-color: #fff;
-            moz-opacity: 0.70;
-            opacity: 0.70;
+            opacity: 0.80;
             filter: alpha(opacity=70);
             border-radius: 10px;
             padding: 10px;
@@ -95,74 +97,95 @@
         $(function () {
 
             var test_plots = {
-                "paris": {
-                    latitude: 48.86,
-                    longitude: 2.3444444444444,
+                "vienna": {
+                    type: "square",
+                    latitude: 48.2,
+                    longitude: 16.37,
                     tooltip: {
-                        content: "Paris"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Vienna"
+                    }
+                },
+                "london": {
+                    type: "square",
+                    latitude: 52,
+                    longitude: 0,
+                    tooltip: {
+                        content: "<span style=\"font-weight:bold;\">City:</span> London"
                     }
                 },
                 "tokyo": {
                     latitude: 35.689488,
                     longitude: 139.691706,
                     tooltip: {
-                        content: "Tokyo"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Tokyo"
                     }
                 },
-                "moscow": {
-                    latitude: 55.755786,
-                    longitude: 37.617633,
+                "bangkok": {
+                    type: "square",
+                    latitude: 15,
+                    longitude: 101,
                     tooltip: {
-                        content: "Moscow"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Bangkok"
                     }
                 },
-                "los_angeles": {
-                    latitude: 34.052234,
-                    longitude: -118.243685,
+                "florida": {
+                    latitude: 27.66,
+                    longitude: -81,
                     tooltip: {
-                        content: "Los Angeles"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Florida"
                     }
                 },
                 "auckland": {
+                    type: "square",
                     latitude: -36.84846,
                     longitude: 174.763332,
                     tooltip: {
-                        content: "Auckland"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Auckland"
                     }
                 },
-                "kiruna": {
-                    latitude: 67.855737,
-                    longitude: 20.225231,
+                "kochi": {
+                    type: "square",
+                    latitude: 15,
+                    longitude: 74.5,
                     tooltip: {
-                        content: "Kiruna"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Kochi"
                     }
                 },
                 "reykjavik": {
                     latitude: 64.135338,
                     longitude: -21.89521,
                     tooltip: {
-                        content: "Reykjavík"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Reykjavik"
                     }
                 },
-                "wales": {
-                    latitude: 65.609167,
-                    longitude: -168.0875,
+                "beijing": {
+                    type: "square",
+                    latitude: 39,
+                    longitude: 116,
                     tooltip: {
-                        content: "Wales"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Beijin"
                     }
                 },
-                "tiksi": {
-                    latitude: 71.625094,
-                    longitude: 128.872883,
+                "bali": {
+                    latitude: -8.4,
+                    longitude: 115,
                     tooltip: {
-                        content: "Tiksi"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Bali"
                     }
                 },
-                "pretoria": {
-                    latitude: -25.746019,
-                    longitude: 28.18712,
+                "vancouver": {
+                    latitude: 49.28,
+                    longitude: -123,
                     tooltip: {
-                        content: "Pretoria"
+                        content: "<span style=\"font-weight:bold;\">City:</span> Vancouver"
+                    }
+                }
+                ,
+                "peru": {
+                    latitude: -9,
+                    longitude: -75,
+                    tooltip: {
+                        content: "<span style=\"font-weight:bold;\">City:</span> Peru"
                     }
                 }
             };
@@ -249,13 +272,13 @@
 </head>
 
 <body>
-    <div class="container">
+    <h1>Bucketlist Destinations</h1>
 
-        <h1>World Map</h1>
+    <div class="container">
 
         <div class="mapcontainer">
             <div class="map">
-                <span>Alternative content for the map</span>
+                <span>Map should display here</span>
             </div>
         </div>
 
